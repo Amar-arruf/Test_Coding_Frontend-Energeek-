@@ -1,0 +1,37 @@
+.rounded {
+  margin: 80px 0;
+}
+.Logos {
+  width: 250px;
+  height: 60px;
+}
+
+.card {
+  width: 530px;
+  height: auto;
+  border-radius: 12px;
+}
+
+.Titles {
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px;
+}
+select {
+  color: black !important;
+}
+
+select:invalid {
+  color: gray !important;
+}
+
+#exampleInputThnLahir {
+  position: relative;
+}
+
+button {
+  width: 100%;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+}

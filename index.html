@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FrontEnd Test</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css"
+    />
+    <!-- plugins year Picker js dan css -->
+    <link rel="stylesheet" href="./assets/docs/yearpicker.css" />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="register-page rounded">
+    <div class="register-logo">
+      <img
+        src="./assets/Img/energeek2 1.png"
+        alt="Logo Energeek"
+        class="Logos"
+      />
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <p class="Titles">Apply Lamaran</p>
+
+        <div class="form-group">
+          <label for="exampleInputNama">Nama Lengkap</label>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputNama"
+            name="nama"
+            placeholder="Amar Ma'ruf"
+          />
+        </div>
+        <div class="form-group">
+          <label>Jabatan</label>
+          <select
+            class="form-control select2"
+            data-placeholder="Pilih Jabatan"
+            style="width: 100%"
+            required
+            id="listJob"
+            name="job"
+          >
+            <option value="" disabled selected hidden>Pilih Jabatan</option>
+          </select>
+        </div>
+        <form role="form" id="myForm">
+          <div class="form-group">
+            <label for="exampleInputTelepon">Telepon </label>
+            <input
+              type="number"
+              class="form-control"
+              id="exampleInputTelepon"
+              placeholder="Cth:085733411232 "
+              name="telepon"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail">Email </label>
+            <input
+              type="email"
+              class="form-control"
+              id="exampleInputEmail"
+              placeholder="Cth: amarmaruf2403@gmail.com "
+              name="email"
+            />
+          </div>
+        </form>
+        <div class="form-group">
+          <label for="exampleInputThnLahir">Tahun </label>
+          <input
+            type="text"
+            class="form-control"
+            value=""
+            id="exampleInputThnLahir"
+            placeholder="Pilih tahun"
+            name="tahun"
+          />
+        </div>
+        <div class="form-group">
+          <label>Skils Set</label>
+          <select
+            class="select2 select2-multiple"
+            multiple="multiple"
+            data-placeholder="pilih Skill"
+            name="listSkils"
+            id="listSkills"
+            style="width: 100%"
+          ></select>
+        </div>
+        <button class="bg-danger" onclick="saveForm();">Apply</button>
+      </div>
+    </div>
+
+    <!-- Plugins JS Admin Lte -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script src="./assets/docs/yearpicker.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="script.js"></script>
+    <script src="./form-validation.js"></script>
+    <script>
+      $(document).ready(function () {
+        //change selectboxes to selectize mode to be searchable
+        $("select").select2();
+
+        // multiple Select
+        $(".select2-multiple").select2();
+      });
+
+      $("#exampleInputThnLahir").yearpicker();
+
+      //save ke object
+
+      function saveForm() {
+        var nama = $("#exampleInputNama").val();
+        var job = parseInt($("#listJob").val());
+        var telp = $("#exampleInputTelepon").val();
+        var email = $("#exampleInputEmail").val();
+        var tglLahir = $("#exampleInputThnLahir").val();
+        var Skils = $("#listSkills").val();
+
+        var dataForm = {
+          name: nama,
+          email: email,
+          phone: telp,
+          birth_year: tglLahir,
+          job_id: job,
+          skill_id: Skils,
+        };
+        console.log(dataForm);
+        function addData() {
+          // pass your data in method
+          var settings = {
+            url: " http://demo73.energeek.co.id/energeek-frontend-test/public/api/recruitment",
+            method: "POST",
+            timeout: 0,
+            headers: {
+              "Content-Type": "application/json",
+            },
+            data: JSON.stringify({
+              name: nama,
+              email: email,
+              phone: telp,
+              birth_year: tglLahir,
+              job_id: job,
+              skill_id: Skils,
+            }),
+          };
+
+          $.ajax(settings)
+            .done(function (response) {
+              console.log(response);
+              Swal.fire("Good job!", "Lamaran berhasil Dikirim", "success");
+            })
+            .fail(function (err) {
+              console.error();
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "ada yang salah!",
+              });
+            });
+        }
+
+        addData();
+      }
+    </script>
+  </body>
+</html>
